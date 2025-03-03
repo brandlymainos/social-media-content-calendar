@@ -5,6 +5,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import React from "react";
+import FilterBar from "../../components/Filters/FilterBar";
 
 interface CalendarHeaderProps {
   currentDate: Date;
