@@ -1,4 +1,4 @@
-import { ChevronDown, Filter } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useCalendar } from "../../context/CalendarContext";
 
@@ -60,35 +60,19 @@ const FilterBar: React.FC = () => {
 
   return (
     <div className="mb-6 bg-white rounded-lg shadow p-4">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-lg font-medium text-gray-800 flex items-center">
-          <Filter className="w-5 h-5 mr-2" />
-          Filters
-        </h3>
-        {hasActiveFilters && (
-          <button
-            onClick={clearAllFilters}
-            className="text-sm text-blue-600 hover:text-blue-800"
-          >
-            Clear all
-          </button>
-        )}
-      </div>
-
-      <div className="space-y-4">
+      <div className="flex items-center gap-3 flex-wrap">
         {/* Platform Dropdown */}
-        <div className="platform-dropdown relative">
-          <h4 className="text-sm font-medium text-gray-700 mb-2">Platforms</h4>
+        <div className="platform-dropdown relative w-48">
           <button
             onClick={() => setIsPlatformOpen(!isPlatformOpen)}
             className="w-full text-left px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-between"
           >
-            <span>
+            <span className="truncate">
               {filters.platforms.length > 0
                 ? `${filters.platforms.length} selected`
-                : "Select platforms"}
+                : "Platforms"}
             </span>
-            <ChevronDown className="w-4 h-4" />
+            <ChevronDown className="w-4 h-4 flex-shrink-0" />
           </button>
           {isPlatformOpen && (
             <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
@@ -110,18 +94,17 @@ const FilterBar: React.FC = () => {
         </div>
 
         {/* Client Dropdown */}
-        <div className="client-dropdown relative">
-          <h4 className="text-sm font-medium text-gray-700 mb-2">Clients</h4>
+        <div className="client-dropdown relative w-48">
           <button
             onClick={() => setIsClientOpen(!isClientOpen)}
             className="w-full text-left px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-between"
           >
-            <span>
+            <span className="truncate">
               {filters.clients.length > 0
                 ? `${filters.clients.length} selected`
-                : "Select clients"}
+                : "Clients"}
             </span>
-            <ChevronDown className="w-4 h-4" />
+            <ChevronDown className="w-4 h-4 flex-shrink-0" />
           </button>
           {isClientOpen && (
             <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
@@ -160,18 +143,17 @@ const FilterBar: React.FC = () => {
         </div>
 
         {/* Label Dropdown */}
-        <div className="label-dropdown relative">
-          <h4 className="text-sm font-medium text-gray-700 mb-2">Labels</h4>
+        <div className="label-dropdown relative w-48">
           <button
             onClick={() => setIsLabelOpen(!isLabelOpen)}
             className="w-full text-left px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-between"
           >
-            <span>
+            <span className="truncate">
               {filters.labels.length > 0
                 ? `${filters.labels.length} selected`
-                : "Select labels"}
+                : "Labels"}
             </span>
-            <ChevronDown className="w-4 h-4" />
+            <ChevronDown className="w-4 h-4 flex-shrink-0" />
           </button>
           {isLabelOpen && (
             <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
@@ -208,6 +190,15 @@ const FilterBar: React.FC = () => {
             </div>
           )}
         </div>
+
+        {hasActiveFilters && (
+          <button
+            onClick={clearAllFilters}
+            className="ml-auto text-sm text-blue-600 hover:text-blue-800 whitespace-nowrap"
+          >
+            Clear all
+          </button>
+        )}
       </div>
     </div>
   );
