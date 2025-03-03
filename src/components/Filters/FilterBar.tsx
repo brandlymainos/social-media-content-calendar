@@ -23,26 +23,70 @@ const FilterBar: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // ... keep all handler functions the same ...
+  const handlePlatformFilter = (platformId: string) => {
+    const newPlatformFilters = filters.platforms.includes(platformId)
+      ? filters.platforms.filter((id) => id !== platformId)
+      : [...filters.platforms, platformId];
+
+    updateFilters("platforms", newPlatformFilters);
+  };
+
+  const handleClientFilter = (clientId: string) => {
+    const newClientFilters = filters.clients.includes(clientId)
+      ? filters.clients.filter((id) => id !== clientId)
+      : [...filters.clients, clientId];
+
+    updateFilters("clients", newClientFilters);
+  };
+
+  const handleLabelFilter = (labelId: string) => {
+    const newLabelFilters = filters.labels.includes(labelId)
+      ? filters.labels.filter((id) => id !== labelId)
+      : [...filters.labels, labelId];
+
+    updateFilters("labels", newLabelFilters);
+  };
+
+  const clearAllFilters = () => {
+    updateFilters("platforms", []);
+    updateFilters("clients", []);
+    updateFilters("labels", []);
+  };
+
+  const hasActiveFilters =
+    filters.platforms.length > 0 ||
+    filters.clients.length > 0 ||
+    filters.labels.length > 0;
 
   return (
     <div className="mb-6 bg-white rounded-lg shadow p-4">
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex items-center mb-3">
+        {hasActiveFilters && (
+          <button
+            onClick={clearAllFilters}
+            className="text-sm text-blue-600 hover:text-blue-800"
+          >
+            Clear all
+          </button>
+        )}
+      </div>
+
+      <div className="space-y-4">
         {/* Platform Dropdown */}
-        <div className="platform-dropdown relative inline-block">
+        <div className="platform-dropdown relative">
           <button
             onClick={() => setIsPlatformOpen(!isPlatformOpen)}
-            className="inline-flex items-center px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 text-sm"
+            className="w-full text-left px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-between"
           >
-            <span className="mr-2 truncate max-w-[160px]">
+            <span>
               {filters.platforms.length > 0
                 ? `${filters.platforms.length} selected`
                 : "Platforms"}
             </span>
-            <ChevronDown className="w-4 h-4 flex-shrink-0" />
+            <ChevronDown className="w-4 h-4" />
           </button>
           {isPlatformOpen && (
-            <div className="absolute z-10 mt-1 left-0 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto min-w-full">
+            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
               {platforms.map((platform) => (
                 <div
                   key={platform.id}
@@ -61,20 +105,20 @@ const FilterBar: React.FC = () => {
         </div>
 
         {/* Client Dropdown */}
-        <div className="client-dropdown relative inline-block">
+        <div className="client-dropdown relative">
           <button
             onClick={() => setIsClientOpen(!isClientOpen)}
-            className="inline-flex items-center px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 text-sm"
+            className="w-full text-left px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-between"
           >
-            <span className="mr-2 truncate max-w-[160px]">
+            <span>
               {filters.clients.length > 0
                 ? `${filters.clients.length} selected`
                 : "Clients"}
             </span>
-            <ChevronDown className="w-4 h-4 flex-shrink-0" />
+            <ChevronDown className="w-4 h-4" />
           </button>
           {isClientOpen && (
-            <div className="absolute z-10 mt-1 left-0 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto min-w-full">
+            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
               {clients.map((client) => (
                 <div
                   key={client.id}
@@ -110,20 +154,20 @@ const FilterBar: React.FC = () => {
         </div>
 
         {/* Label Dropdown */}
-        <div className="label-dropdown relative inline-block">
+        <div className="label-dropdown relative">
           <button
             onClick={() => setIsLabelOpen(!isLabelOpen)}
-            className="inline-flex items-center px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 text-sm"
+            className="w-full text-left px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-between"
           >
-            <span className="mr-2 truncate max-w-[160px]">
+            <span>
               {filters.labels.length > 0
                 ? `${filters.labels.length} selected`
                 : "Labels"}
             </span>
-            <ChevronDown className="w-4 h-4 flex-shrink-0" />
+            <ChevronDown className="w-4 h-4" />
           </button>
           {isLabelOpen && (
-            <div className="absolute z-10 mt-1 left-0 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto min-w-full">
+            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
               {labels.map((label) => (
                 <div
                   key={label.id}
@@ -157,15 +201,6 @@ const FilterBar: React.FC = () => {
             </div>
           )}
         </div>
-
-        {hasActiveFilters && (
-          <button
-            onClick={clearAllFilters}
-            className="ml-auto text-sm text-blue-600 hover:text-blue-800 whitespace-nowrap"
-          >
-            Clear all
-          </button>
-        )}
       </div>
     </div>
   );
