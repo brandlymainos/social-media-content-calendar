@@ -7,7 +7,7 @@ export const platforms: SocialMediaPlatform[] = [
   { id: uuidv4(), name: "Instagram", icon: "instagram" },
   { id: uuidv4(), name: "LinkedIn", icon: "linkedin" },
   { id: uuidv4(), name: "Twitter", icon: "twitter" },
-  { id: uuidv4(), name: "TikTok", icon: "video" },
+  { id: uuidv4(), name: "TikTok", icon: "tiktok" },
   { id: uuidv4(), name: "YouTube", icon: "youtube" },
   { id: uuidv4(), name: "Pinterest", icon: "pin" },
 ];

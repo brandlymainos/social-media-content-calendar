@@ -1,41 +1,42 @@
-import React, { useState } from 'react';
-import { CalendarProvider } from './context/CalendarContext';
-import CalendarHeader from './components/Calendar/CalendarHeader';
-import CalendarGrid from './components/Calendar/CalendarGrid';
-import FilterBar from './components/Filters/FilterBar';
-import EventModal from './components/Modals/EventModal';
-import ClientModal from './components/Modals/ClientModal';
-import LabelModal from './components/Modals/LabelModal';
-import { Plus, Users, Tag } from 'lucide-react';
+import { Plus, Tag, Users } from "lucide-react";
+import { useState } from "react";
+import CalendarGrid from "./components/Calendar/CalendarGrid";
+import CalendarHeader from "./components/Calendar/CalendarHeader";
+import ClientModal from "./components/Modals/ClientModal";
+import EventModal from "./components/Modals/EventModal";
+import LabelModal from "./components/Modals/LabelModal";
+import { CalendarProvider } from "./context/CalendarContext";
 
 function App() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
-  const [modalMode, setModalMode] = useState<'view' | 'edit' | 'create'>('view');
+  const [modalMode, setModalMode] = useState<"view" | "edit" | "create">(
+    "view"
+  );
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
   const [isClientModalOpen, setIsClientModalOpen] = useState(false);
   const [isLabelModalOpen, setIsLabelModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  
+
   const handleEventClick = (eventId: string) => {
     setSelectedEventId(eventId);
-    setModalMode('view');
+    setModalMode("view");
     setIsEventModalOpen(true);
   };
-  
+
   const handleCreateEvent = () => {
     setSelectedEventId(null);
-    setModalMode('create');
+    setModalMode("create");
     setIsEventModalOpen(true);
   };
-  
+
   const handleDateClick = (date: Date) => {
     setSelectedDate(date);
     setSelectedEventId(null);
-    setModalMode('create');
+    setModalMode("create");
     setIsEventModalOpen(true);
   };
-  
+
   return (
     <CalendarProvider>
       <div className="min-h-screen bg-gray-100 p-4 md:p-8">
@@ -44,7 +45,9 @@ function App() {
             {/* Main Calendar Section */}
             <div className="flex-1">
               <div className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold text-gray-900">Social Media Calendar</h1>
+                <h1 className="text-3xl font-bold text-gray-900">
+                  Social Media Calendar
+                </h1>
                 <div className="flex space-x-2">
                   <button
                     onClick={() => setIsClientModalOpen(true)}
@@ -69,28 +72,23 @@ function App() {
                   </button>
                 </div>
               </div>
-              
-              <CalendarHeader 
-                currentDate={currentDate} 
-                setCurrentDate={setCurrentDate} 
+
+              <CalendarHeader
+                currentDate={currentDate}
+                setCurrentDate={setCurrentDate}
               />
-              
-              <CalendarGrid 
-                currentDate={currentDate} 
+
+              <CalendarGrid
+                currentDate={currentDate}
                 onEventClick={handleEventClick}
                 onDateClick={handleDateClick}
               />
             </div>
-            
-            {/* Sidebar */}
-            <div className="w-full md:w-80">
-              <FilterBar />
-            </div>
           </div>
         </div>
-        
+
         {/* Modals */}
-        <EventModal 
+        <EventModal
           isOpen={isEventModalOpen}
           onClose={() => {
             setIsEventModalOpen(false);
@@ -101,13 +99,13 @@ function App() {
           setMode={setModalMode}
           selectedDate={selectedDate}
         />
-        
-        <ClientModal 
+
+        <ClientModal
           isOpen={isClientModalOpen}
           onClose={() => setIsClientModalOpen(false)}
         />
-        
-        <LabelModal 
+
+        <LabelModal
           isOpen={isLabelModalOpen}
           onClose={() => setIsLabelModalOpen(false)}
         />

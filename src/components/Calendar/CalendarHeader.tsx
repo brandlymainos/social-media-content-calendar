@@ -57,7 +57,11 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
           Today
         </button>
       </div>
-      <div className="flex items-center space-x-2"></div>
+      <div className="flex items-center space-x-2">
+        <div className="w-full md:w-80">
+          <FilterBar />
+        </div>
+      </div>
     </div>
   );
 };
