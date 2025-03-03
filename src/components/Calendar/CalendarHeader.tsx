@@ -61,7 +61,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
       <div className="flex items-center space-x-2">
         {" "}
         {/* Sidebar */}
-        <div className="w-full md:w-80">
+        <div className="w-full">
           <FilterBar />
         </div>
       </div>

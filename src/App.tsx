@@ -45,9 +45,6 @@ function App() {
             {/* Main Calendar Section */}
             <div className="flex-1">
               <div className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold text-gray-900">
-                  Social Media Calendar
-                </h1>
                 <div className="flex space-x-2">
                   <button
                     onClick={() => setIsClientModalOpen(true)}
