@@ -1,9 +1,27 @@
 import { ChevronDown, Filter } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useCalendar } from "../../context/CalendarContext";
 
 const FilterBar: React.FC = () => {
   const { platforms, clients, labels, filters, updateFilters } = useCalendar();
+
+  const [isPlatformOpen, setIsPlatformOpen] = useState(false);
+  const [isClientOpen, setIsClientOpen] = useState(false);
+  const [isLabelOpen, setIsLabelOpen] = useState(false);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+
+      if (!target.closest(".platform-dropdown")) setIsPlatformOpen(false);
+      if (!target.closest(".client-dropdown")) setIsClientOpen(false);
+      if (!target.closest(".label-dropdown")) setIsLabelOpen(false);
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handlePlatformFilter = (platformId: string) => {
     const newPlatformFilters = filters.platforms.includes(platformId)
@@ -58,85 +76,137 @@ const FilterBar: React.FC = () => {
       </div>
 
       <div className="space-y-4">
-        {/* Platform filters dropdown */}
-        <div className="relative">
+        {/* Platform Dropdown */}
+        <div className="platform-dropdown relative">
           <h4 className="text-sm font-medium text-gray-700 mb-2">Platforms</h4>
-          <div className="dropdown">
-            <button className="dropdown-toggle flex items-center justify-between w-full px-4 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm">
-              Select Platforms
-              <ChevronDown className="w-4 h-4 ml-2" />
-            </button>
-            <div className="dropdown-menu mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg">
+          <button
+            onClick={() => setIsPlatformOpen(!isPlatformOpen)}
+            className="w-full text-left px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-between"
+          >
+            <span>
+              {filters.platforms.length > 0
+                ? `${filters.platforms.length} selected`
+                : "Select platforms"}
+            </span>
+            <ChevronDown className="w-4 h-4" />
+          </button>
+          {isPlatformOpen && (
+            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
               {platforms.map((platform) => (
-                <label
+                <div
                   key={platform.id}
-                  className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => handlePlatformFilter(platform.id)}
+                  className={`px-4 py-2 cursor-pointer ${
+                    filters.platforms.includes(platform.id)
+                      ? "bg-blue-100 text-blue-800"
+                      : "hover:bg-gray-50"
+                  }`}
                 >
-                  <input
-                    type="checkbox"
-                    checked={filters.platforms.includes(platform.id)}
-                    onChange={() => handlePlatformFilter(platform.id)}
-                    className="mr-2"
-                  />
                   {platform.name}
-                </label>
+                </div>
               ))}
             </div>
-          </div>
+          )}
         </div>
 
-        {/* Client filters dropdown */}
-        <div className="relative">
+        {/* Client Dropdown */}
+        <div className="client-dropdown relative">
           <h4 className="text-sm font-medium text-gray-700 mb-2">Clients</h4>
-          <div className="dropdown">
-            <button className="dropdown-toggle flex items-center justify-between w-full px-4 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm">
-              Select Clients
-              <ChevronDown className="w-4 h-4 ml-2" />
-            </button>
-            <div className="dropdown-menu mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg">
+          <button
+            onClick={() => setIsClientOpen(!isClientOpen)}
+            className="w-full text-left px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-between"
+          >
+            <span>
+              {filters.clients.length > 0
+                ? `${filters.clients.length} selected`
+                : "Select clients"}
+            </span>
+            <ChevronDown className="w-4 h-4" />
+          </button>
+          {isClientOpen && (
+            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
               {clients.map((client) => (
-                <label
+                <div
                   key={client.id}
-                  className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => handleClientFilter(client.id)}
+                  className={`px-4 py-2 cursor-pointer ${
+                    filters.clients.includes(client.id)
+                      ? "border-l-4"
+                      : "hover:bg-gray-50"
+                  }`}
+                  style={{
+                    borderColor: filters.clients.includes(client.id)
+                      ? client.color
+                      : "transparent",
+                    backgroundColor: filters.clients.includes(client.id)
+                      ? `${client.color}33`
+                      : "transparent",
+                    color: filters.clients.includes(client.id)
+                      ? client.color
+                      : "inherit",
+                  }}
                 >
-                  <input
-                    type="checkbox"
-                    checked={filters.clients.includes(client.id)}
-                    onChange={() => handleClientFilter(client.id)}
-                    className="mr-2"
-                  />
-                  {client.name}
-                </label>
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: client.color }}
+                    />
+                    <span>{client.name}</span>
+                  </div>
+                </div>
               ))}
             </div>
-          </div>
+          )}
         </div>
 
-        {/* Label filters dropdown */}
-        <div className="relative">
+        {/* Label Dropdown */}
+        <div className="label-dropdown relative">
           <h4 className="text-sm font-medium text-gray-700 mb-2">Labels</h4>
-          <div className="dropdown">
-            <button className="dropdown-toggle flex items-center justify-between w-full px-4 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm">
-              Select Labels
-              <ChevronDown className="w-4 h-4 ml-2" />
-            </button>
-            <div className="dropdown-menu mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg">
+          <button
+            onClick={() => setIsLabelOpen(!isLabelOpen)}
+            className="w-full text-left px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-between"
+          >
+            <span>
+              {filters.labels.length > 0
+                ? `${filters.labels.length} selected`
+                : "Select labels"}
+            </span>
+            <ChevronDown className="w-4 h-4" />
+          </button>
+          {isLabelOpen && (
+            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
               {labels.map((label) => (
-                <label
+                <div
                   key={label.id}
-                  className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => handleLabelFilter(label.id)}
+                  className={`px-4 py-2 cursor-pointer ${
+                    filters.labels.includes(label.id)
+                      ? "border-l-4"
+                      : "hover:bg-gray-50"
+                  }`}
+                  style={{
+                    borderColor: filters.labels.includes(label.id)
+                      ? label.color
+                      : "transparent",
+                    backgroundColor: filters.labels.includes(label.id)
+                      ? `${label.color}33`
+                      : "transparent",
+                    color: filters.labels.includes(label.id)
+                      ? label.color
+                      : "inherit",
+                  }}
                 >
-                  <input
-                    type="checkbox"
-                    checked={filters.labels.includes(label.id)}
-                    onChange={() => handleLabelFilter(label.id)}
-                    className="mr-2"
-                  />
-                  {label.name}
-                </label>
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: label.color }}
+                    />
+                    <span>{label.name}</span>
+                  </div>
+                </div>
               ))}
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
