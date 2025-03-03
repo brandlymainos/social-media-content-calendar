@@ -1,4 +1,4 @@
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Filter } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useCalendar } from "../../context/CalendarContext";
 
@@ -60,149 +60,67 @@ const FilterBar: React.FC = () => {
 
   return (
     <div className="mb-6 bg-white rounded-lg shadow p-4">
-      <div className="flex items-center mb-3">
-        {hasActiveFilters && (
-          <button
-            onClick={clearAllFilters}
-            className="text-sm text-blue-600 hover:text-blue-800"
-          >
-            Clear all
-          </button>
+  <div className="flex items-center justify-between mb-3">
+    <div className="flex gap-4">
+      {/* Platform Dropdown */}
+      <div className="platform-dropdown relative">
+        <button
+          onClick={() => setIsPlatformOpen(!isPlatformOpen)}
+          className="inline-flex items-center justify-between px-3 py-2 bg-gray-100 rounded-lg border border-gray-200 hover:bg-gray-50 whitespace-nowrap"
+        >
+          {filters.platforms.length > 0 ? `${filters.platforms.length} selected` : "Platforms"}
+          <ChevronDown className="w-4 h-4 ml-2" />
+        </button>
+        {isPlatformOpen && (
+          <div className="absolute z-50 mt-1 left-0 bg-white border border-gray-200 rounded-lg shadow-lg min-w-[120%] max-h-60 overflow-y-auto">
+            {/* Dropdown content */}
+          </div>
         )}
       </div>
 
-      <div className="space-y-4">
-        {/* Platform Dropdown */}
-        <div className="platform-dropdown relative">
-          <button
-            onClick={() => setIsPlatformOpen(!isPlatformOpen)}
-            className="w-full text-left px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-between"
-          >
-            <span>
-              {filters.platforms.length > 0
-                ? `${filters.platforms.length} selected`
-                : "Platforms"}
-            </span>
-            <ChevronDown className="w-4 h-4" />
-          </button>
-          {isPlatformOpen && (
-            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-              {platforms.map((platform) => (
-                <div
-                  key={platform.id}
-                  onClick={() => handlePlatformFilter(platform.id)}
-                  className={`px-4 py-2 cursor-pointer ${
-                    filters.platforms.includes(platform.id)
-                      ? "bg-blue-100 text-blue-800"
-                      : "hover:bg-gray-50"
-                  }`}
-                >
-                  {platform.name}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+      {/* Client Dropdown */}
+      <div className="client-dropdown relative">
+        <button
+          onClick={() => setIsClientOpen(!isClientOpen)}
+          className="inline-flex items-center justify-between px-3 py-2 bg-gray-100 rounded-lg border border-gray-200 hover:bg-gray-50 whitespace-nowrap"
+        >
+          {filters.clients.length > 0 ? `${filters.clients.length} selected` : "Clients"}
+          <ChevronDown className="w-4 h-4 ml-2" />
+        </button>
+        {isClientOpen && (
+          <div className="absolute z-50 mt-1 left-0 bg-white border border-gray-200 rounded-lg shadow-lg min-w-[120%] max-h-60 overflow-y-auto">
+            {/* Dropdown content */}
+          </div>
+        )}
+      </div>
 
-        {/* Client Dropdown */}
-        <div className="client-dropdown relative">
-          <button
-            onClick={() => setIsClientOpen(!isClientOpen)}
-            className="w-full text-left px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-between"
-          >
-            <span>
-              {filters.clients.length > 0
-                ? `${filters.clients.length} selected`
-                : "Clients"}
-            </span>
-            <ChevronDown className="w-4 h-4" />
-          </button>
-          {isClientOpen && (
-            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-              {clients.map((client) => (
-                <div
-                  key={client.id}
-                  onClick={() => handleClientFilter(client.id)}
-                  className={`px-4 py-2 cursor-pointer ${
-                    filters.clients.includes(client.id)
-                      ? "border-l-4"
-                      : "hover:bg-gray-50"
-                  }`}
-                  style={{
-                    borderColor: filters.clients.includes(client.id)
-                      ? client.color
-                      : "transparent",
-                    backgroundColor: filters.clients.includes(client.id)
-                      ? `${client.color}33`
-                      : "transparent",
-                    color: filters.clients.includes(client.id)
-                      ? client.color
-                      : "inherit",
-                  }}
-                >
-                  <div className="flex items-center gap-2">
-                    <div
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: client.color }}
-                    />
-                    <span>{client.name}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Label Dropdown */}
-        <div className="label-dropdown relative">
-          <button
-            onClick={() => setIsLabelOpen(!isLabelOpen)}
-            className="w-full text-left px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-between"
-          >
-            <span>
-              {filters.labels.length > 0
-                ? `${filters.labels.length} selected`
-                : "Labels"}
-            </span>
-            <ChevronDown className="w-4 h-4" />
-          </button>
-          {isLabelOpen && (
-            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-              {labels.map((label) => (
-                <div
-                  key={label.id}
-                  onClick={() => handleLabelFilter(label.id)}
-                  className={`px-4 py-2 cursor-pointer ${
-                    filters.labels.includes(label.id)
-                      ? "border-l-4"
-                      : "hover:bg-gray-50"
-                  }`}
-                  style={{
-                    borderColor: filters.labels.includes(label.id)
-                      ? label.color
-                      : "transparent",
-                    backgroundColor: filters.labels.includes(label.id)
-                      ? `${label.color}33`
-                      : "transparent",
-                    color: filters.labels.includes(label.id)
-                      ? label.color
-                      : "inherit",
-                  }}
-                >
-                  <div className="flex items-center gap-2">
-                    <div
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: label.color }}
-                    />
-                    <span>{label.name}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+      {/* Label Dropdown */}
+      <div className="label-dropdown relative">
+        <button
+          onClick={() => setIsLabelOpen(!isLabelOpen)}
+          className="inline-flex items-center justify-between px-3 py-2 bg-gray-100 rounded-lg border border-gray-200 hover:bg-gray-50 whitespace-nowrap"
+        >
+          {filters.labels.length > 0 ? `${filters.labels.length} selected` : "Labels"}
+          <ChevronDown className="w-4 h-4 ml-2" />
+        </button>
+        {isLabelOpen && (
+          <div className="absolute z-50 mt-1 left-0 bg-white border border-gray-200 rounded-lg shadow-lg min-w-[120%] max-h-60 overflow-y-auto">
+            {/* Dropdown content */}
+          </div>
+        )}
       </div>
     </div>
+
+    {hasActiveFilters && (
+      <button
+        onClick={clearAllFilters}
+        className="text-sm text-blue-600 hover:text-blue-800 ml-auto"
+      >
+        Clear all
+      </button>
+    )}
+  </div>
+</div>
   );
 };
 

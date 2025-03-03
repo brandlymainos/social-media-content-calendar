@@ -5,6 +5,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import React from "react";
+import FilterBar from "../Filters/FilterBar";
 
 interface CalendarHeaderProps {
   currentDate: Date;
@@ -57,7 +58,13 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
           Today
         </button>
       </div>
-      <div className="flex items-center space-x-2"></div>
+      <div className="flex items-center space-x-2">
+        {" "}
+        {/* Sidebar */}
+        <div className="w-full md:w-80">
+          <FilterBar />
+        </div>
+      </div>
     </div>
   );
 };
