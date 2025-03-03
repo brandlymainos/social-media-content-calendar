@@ -2,6 +2,7 @@ import { Plus, Tag, Users } from "lucide-react";
 import { useState } from "react";
 import CalendarGrid from "./components/Calendar/CalendarGrid";
 import CalendarHeader from "./components/Calendar/CalendarHeader";
+import FilterBar from "./components/Filters/FilterBar";
 import ClientModal from "./components/Modals/ClientModal";
 import EventModal from "./components/Modals/EventModal";
 import LabelModal from "./components/Modals/LabelModal";
@@ -83,6 +84,11 @@ function App() {
                 onEventClick={handleEventClick}
                 onDateClick={handleDateClick}
               />
+            </div>
+
+            {/* Sidebar */}
+            <div className="w-full md:w-80">
+              <FilterBar />
             </div>
           </div>
         </div>
