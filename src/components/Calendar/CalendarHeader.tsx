@@ -1,13 +1,20 @@
-import React from 'react';
-import { format, addMonths, subMonths } from 'date-fns';
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-react';
+import { addMonths, format, subMonths } from "date-fns";
+import {
+  Calendar as CalendarIcon,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import React from "react";
 
 interface CalendarHeaderProps {
   currentDate: Date;
   setCurrentDate: (date: Date) => void;
 }
 
-const CalendarHeader: React.FC<CalendarHeaderProps> = ({ currentDate, setCurrentDate }) => {
+const CalendarHeader: React.FC<CalendarHeaderProps> = ({
+  currentDate,
+  setCurrentDate,
+}) => {
   const goToPreviousMonth = () => {
     setCurrentDate(subMonths(currentDate, 1));
   };
@@ -24,17 +31,8 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({ currentDate, setCurrent
     <div className="flex items-center justify-between mb-6">
       <div className="flex items-center">
         <h2 className="text-2xl font-bold text-gray-800">
-          {format(currentDate, 'MMMM yyyy')}
+          {format(currentDate, "MMMM yyyy")}
         </h2>
-      </div>
-      <div className="flex items-center space-x-2">
-        <button
-          onClick={goToToday}
-          className="flex items-center px-3 py-1.5 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 text-sm font-medium text-gray-700"
-        >
-          <CalendarIcon className="w-4 h-4 mr-1" />
-          Today
-        </button>
         <div className="flex items-center space-x-1">
           <button
             onClick={goToPreviousMonth}
@@ -51,7 +49,15 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({ currentDate, setCurrent
             <ChevronRight className="w-5 h-5 text-gray-600" />
           </button>
         </div>
+        <button
+          onClick={goToToday}
+          className="flex items-center px-3 py-1.5 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 text-sm font-medium text-gray-700"
+        >
+          <CalendarIcon className="w-4 h-4 mr-1" />
+          Today
+        </button>
       </div>
+      <div className="flex items-center space-x-2"></div>
     </div>
   );
 };
