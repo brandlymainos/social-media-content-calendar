@@ -1,4 +1,3 @@
-import { Plus, Tag, Users } from "lucide-react";
 import { useState } from "react";
 import CalendarGrid from "./components/Calendar/CalendarGrid";
 import CalendarHeader from "./components/Calendar/CalendarHeader";
@@ -42,37 +41,13 @@ function App() {
       <div className="min-h-screen bg-gray-100 p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row gap-6">
-            {/* Main Calendar Section */}
             <div className="flex-1">
-              <div className="flex justify-between items-center mb-6">
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => setIsClientModalOpen(true)}
-                    className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                    <Users className="w-4 h-4 mr-1" />
-                    Clients
-                  </button>
-                  <button
-                    onClick={() => setIsLabelModalOpen(true)}
-                    className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                    <Tag className="w-4 h-4 mr-1" />
-                    Labels
-                  </button>
-                  <button
-                    onClick={handleCreateEvent}
-                    className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                    <Plus className="w-4 h-4 mr-1" />
-                    New Event
-                  </button>
-                </div>
-              </div>
-
               <CalendarHeader
                 currentDate={currentDate}
                 setCurrentDate={setCurrentDate}
+                onCreateEvent={handleCreateEvent}
+                onOpenClientModal={() => setIsClientModalOpen(true)}
+                onOpenLabelModal={() => setIsLabelModalOpen(true)}
               />
 
               <CalendarGrid

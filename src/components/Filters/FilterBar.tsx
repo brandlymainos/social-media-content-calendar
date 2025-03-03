@@ -1,4 +1,4 @@
-import { ChevronDown, Filter } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useCalendar } from "../../context/CalendarContext";
 
@@ -60,13 +60,21 @@ const FilterBar: React.FC = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center space-x-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          {hasActiveFilters && (
+            <button
+              onClick={clearAllFilters}
+              className="text-sm text-blue-600 hover:text-blue-800"
+            >
+              Clear all
+            </button>
+          )}
           {/* Platform Dropdown */}
           <div className="platform-dropdown relative">
             <button
               onClick={() => setIsPlatformOpen(!isPlatformOpen)}
-              className="text-left px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-between"
+              className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex items-center justify-between"
               style={{ minWidth: "120px" }}
             >
               <span>
@@ -99,7 +107,7 @@ const FilterBar: React.FC = () => {
           <div className="client-dropdown relative">
             <button
               onClick={() => setIsClientOpen(!isClientOpen)}
-              className="text-left px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-between"
+              className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex items-center justify-between"
               style={{ minWidth: "120px" }}
             >
               <span>
@@ -149,7 +157,7 @@ const FilterBar: React.FC = () => {
           <div className="label-dropdown relative">
             <button
               onClick={() => setIsLabelOpen(!isLabelOpen)}
-              className="text-left px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-between"
+              className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex items-center justify-between"
               style={{ minWidth: "120px" }}
             >
               <span>
@@ -195,15 +203,6 @@ const FilterBar: React.FC = () => {
             )}
           </div>
         </div>
-
-        {hasActiveFilters && (
-          <button
-            onClick={clearAllFilters}
-            className="text-sm text-blue-600 hover:text-blue-800"
-          >
-            Clear all
-          </button>
-        )}
       </div>
     </div>
   );
